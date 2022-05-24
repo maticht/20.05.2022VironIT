@@ -1,15 +1,8 @@
-import React, {useState} from 'react'
+import React from 'react'
+import {View, Text, StyleSheet, TouchableOpacity, Button} from "react-native";
 import {itmList} from "../Basket";
-import {View, Text, StyleSheet, TouchableOpacity, TouchableHighlight} from "react-native";
 
-export const Users = ({user}) => {
-   const [buy, setBuy] = useState('')
-    const add = () => {
-        itmList.push({id: itmList.length + 1, name: user})
-
-        setBuy('Added to cart')
-    }
-
+export const AdminItems = ({user,num}) => {
     return(
         <TouchableOpacity>
             <View style = {styles.userBlock}>
@@ -17,34 +10,17 @@ export const Users = ({user}) => {
                     <View>
                         <Text style = {styles.text}>{user}</Text>
                     </View>
-                    <Text style = {styles.buyText}>{buy}</Text>
                     <View style = {styles.check}>
-                        <TouchableHighlight onPress={add}>
-                            <View style={styles.button}>
-                                <Text style={styles.btnText}>Add</Text>
-                            </View>
-                        </TouchableHighlight>
+                        <Text style = {styles.textA}>Amount:</Text>
+                        <Text style = {styles.textNum}>{num}</Text>
                     </View>
                 </View>
             </View>
         </TouchableOpacity>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
-    btnText: {
-        fontSize:15,
-        fontWeight:'500',
-        color:'#fff',
-        textTransform:'uppercase'
-    },
-    button: {
-        alignItems: "center",
-        backgroundColor: "#000",
-        paddingVertical: 8,
-        paddingHorizontal:12,
-
-    },
     check: {
         flexDirection:"row",
         alignItems:'center',
@@ -74,15 +50,20 @@ const styles = StyleSheet.create({
         borderRadius:5,
         marginBottom:5,
     },
+    textNum:{
+        marginVertical:2,
+        fontSize:16,
+        fontWeight:"600",
+        marginLeft:8
+    },
     text :{
-        fontWeight:'500',
         fontSize:16,
         marginVertical:2,
         marginLeft:8
     },
-    buyText:{
-       opacity:0.2,
-        fontSize:20,
-        marginRight:10
-    }
+    textA :{
+        marginVertical:2,
+        marginLeft:8,
+        color: "#666"
+    },
 })

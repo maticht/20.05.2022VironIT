@@ -7,7 +7,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {NavigationContainer} from "@react-navigation/native";
 
 const Stack = createStackNavigator();
-const Navigate: FC = () => {
+const Navigate = () => {
     return <NavigationContainer>
         <Stack.Navigator>
             <Stack.Screen

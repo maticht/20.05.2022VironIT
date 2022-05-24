@@ -1,11 +1,25 @@
-import React from 'react'
-import {View, Text, StyleSheet, TouchableOpacity, Button} from "react-native";
+import React, {useState} from 'react'
+import {View, Text, StyleSheet, TouchableOpacity, TouchableHighlight} from "react-native";
 import {itmList} from "../Basket";
 
 export const CartItems = ({user,num}) => {
-    // const add = () => {
-    //     itmList.push({id: itmList.length + 1, name: user})
-    // }
+    let count = itmList.reduce(function (itmArr, itm) {
+        if (!itmArr.hasOwnProperty(itm.name)) {
+            itmArr[itm.name] = 0;
+        }
+        itmArr[itm.name]++;
+        return itmArr;
+    }, {});
+    let cartArr = Object.keys(count).map(function (name)
+    {
+        return {name:name, num: count[name]};
+    });
+    const [users, setUsers] = useState(cartArr)
+    const add = () => {
+        itmList.push({id: itmList.length + 1, name: user})
+        console.log(users)
+    }
+
     return(
         <TouchableOpacity>
             <View style = {styles.userBlock}>
@@ -15,9 +29,18 @@ export const CartItems = ({user,num}) => {
                     </View>
                     <View style = {styles.check}>
                     <Text style = {styles.textA}>Amount:</Text>
-                        {/*<Button color='black' title='-' onPress ={add}></Button>*/}
+                        <TouchableHighlight onPress={add}>
+                            <View style={styles.button}>
+                                <Text style={styles.btnText}>-</Text>
+                            </View>
+                        </TouchableHighlight>
                     <Text style = {styles.textNum}>{num}</Text>
-                        {/*<Button color='black' title='+' onPress ={add}></Button>*/}
+
+                        <TouchableHighlight onPress={add}>
+                            <View style={styles.button}>
+                                <Text style={styles.btnText}>+</Text>
+                            </View>
+                        </TouchableHighlight>
                     </View>
                 </View>
             </View>
@@ -26,6 +49,18 @@ export const CartItems = ({user,num}) => {
 }
 
 const styles = StyleSheet.create({
+    btnText: {
+        color:'#fff',
+        fontWeight:'500',
+        textTransform:'uppercase'
+    },
+    button: {
+        width:25,
+        height:25,
+        alignItems: "center",
+        backgroundColor: "#000",
+        paddingVertical: 2,
+    },
     check: {
         flexDirection:"row",
         alignItems:'center',
@@ -59,16 +94,17 @@ const styles = StyleSheet.create({
         marginVertical:2,
         fontSize:16,
         fontWeight:"600",
-        marginLeft:8
+        marginHorizontal:8
     },
     text :{
+        fontWeight:"500",
         fontSize:16,
         marginVertical:2,
         marginLeft:8
     },
     textA :{
         marginVertical:2,
-        marginLeft:8,
+        marginRight:8,
         color: "#666"
     },
 })

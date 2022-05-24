@@ -1,10 +1,10 @@
-import React, {FC, useState} from "react";
-import {StyleSheet, View, ScrollView, Button} from 'react-native';
+import React, { useState} from "react";
+import {StyleSheet, View, ScrollView, Button, Text, TouchableHighlight} from 'react-native';
 import {Navbar} from './src/navbar'
-import {CartItems} from "./src/cartItems";
+import {AdminItems} from "./src/admibItems";
 import {itmList} from "./Basket";
 
-const AdminPage: FC = () => {
+const AdminPage = () => {
     let counter1 = itmList.reduce(function (itmArr, itm) {
         if (!itmArr.hasOwnProperty(itm.name)) {
             itmArr[itm.name] = 0;
@@ -16,27 +16,36 @@ const AdminPage: FC = () => {
     {
         return {name:name, num: counter1[name]};
     });
+
     const [users, setUsers] = useState(result)
+
     const descendingSort = async () => {
-        setUsers(result.sort((a,b) => b.num - a.num))
+        await setUsers([...result].sort((a,b) => b.num - a.num))
     }
 
-    const ascendingSort = () => {
-        setUsers(result.sort((a,b) => a.num - b.num))
+    const ascendingSort = async () => {
+       await setUsers([...result].sort((a,b) => a.num - b.num))
     }
-
 
 
     return (
         <View >
             <Navbar title="Admin Page" />
             <View style={styles.container}>
-                <Button color='black' title='Descending Sort' onPress={descendingSort}></Button>
-                <Button color='black' title='Ascending Sort' onPress={ascendingSort}></Button>
+                <TouchableHighlight onPress={descendingSort}>
+                    <View style={styles.button}>
+                        <Text style={styles.btnText}>Descending Sort</Text>
+                    </View>
+                </TouchableHighlight>
+                <TouchableHighlight onPress={ascendingSort}>
+                    <View style={styles.button}>
+                        <Text style={styles.btnText}>Ascending Sort</Text>
+                    </View>
+                </TouchableHighlight>
             </View>
             <ScrollView>
                 {users.map(user => (
-                    <CartItems user={user.name} num={user.num}/>
+                    <AdminItems user={user.name} num={user.num}/>
                 ))}
             </ScrollView>
         </View>
@@ -45,9 +54,21 @@ const AdminPage: FC = () => {
 export default AdminPage;
 
 const styles = StyleSheet.create({
+    btnText: {
+        fontSize:15,
+        fontWeight:'500',
+        color:'#fff',
+        textTransform:'uppercase'
+    },
+    button: {
+        width:150,
+        alignItems: "center",
+        backgroundColor: "#000",
+        paddingVertical: 10,
+    },
     container: {
         marginVertical:15,
-        marginHorizontal:-17,
+        marginHorizontal:-5,
         flexDirection:'row',
         justifyContent:'space-around'
     }
